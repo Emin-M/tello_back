@@ -1,13 +1,22 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const mongoose = require("mongoose");
 require("dotenv").config({
     path: "./config.env"
 });
+
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log("Server running on port:", PORT));
+//! Starting Application
+const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
+mongoose.connect(DB, (err) => {
+    if (err) return console.log(err);
+    console.log("MongoDB connected");
+
+    const PORT = process.env.PORT;
+    app.listen(PORT, () => console.log("Server running on port:", PORT));
+});
