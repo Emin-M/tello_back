@@ -3,6 +3,7 @@ const GlobalFilter = require("../utils/GlobalFilter");
 
 //! Getting All Products
 exports.getAllProducts = async (req, res) => {
+    //! MongoDB Object
     const products = new GlobalFilter(Product.find(), req.query);
     products.filter().sort().fields().paginate();
 
@@ -111,16 +112,16 @@ exports.deleteProduct = async (req, res) => {
                 message: "Invalid ID"
             });
         }
-        const product = await Product.findByIdAndRemove(id);
+        const deletedProduct = await Product.findByIdAndRemove(id);
 
-        if (!product) return res.status(404).json({
+        if (!deletedProduct) return res.status(404).json({
             success: false,
             message: "Invalid ID"
         });
 
         res.json({
             success: true,
-            data: `product with id ${id} deleted`
+            message: `product with name: '${deletedProduct.name}' deleted`
         });
     } catch (error) {
         res.status(404).json({
