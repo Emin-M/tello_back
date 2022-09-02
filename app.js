@@ -6,15 +6,29 @@ require("dotenv").config({
     path: "./config.env"
 });
 
+//! Routers 
+const productRouter = require("./routes/productRouter")
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-//! Enverionment
+//! Environment
 if (process.env.NODE_ENV.trim() == "development") {
     app.use(morgan("dev"));
-}
+};
+
+//! Routing
+app.use("/products", productRouter);
+
+//! When "path" doesn't exist
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: `${req.originalUrl} does not exist!`,
+    });
+});
 
 //! Starting Application
 const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
