@@ -12,10 +12,9 @@ app.use(cors());
 app.use(express.json());
 
 //! Enverionment
-if (app.get("env") === "development") {
+if (process.env.NODE_ENV.trim() == "development") {
     app.use(morgan("dev"));
-};
-
+}
 
 //! Starting Application
 const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
