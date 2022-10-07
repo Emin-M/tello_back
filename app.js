@@ -1,18 +1,31 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config({
     path: "./config.env"
 });
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 const GlobalError = require("./error/GlobalError");
 const errorHandler = require("./error/errorHandler");
 
 //! Routers 
-const productRouter = require("./routes/productRouter")
+const productRouter = require("./routes/productRouter");
 
+//! my app
 const app = express();
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 300, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    message: "Limit exceeded",
+});
+
+app.use(limiter);
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
