@@ -5,6 +5,8 @@ const morgan = require("morgan");
 require("dotenv").config({
     path: "./config.env"
 });
+const GlobalError = require("./error/GlobalError");
+const errorHandler = require("./error/errorHandler");
 
 //! Routers 
 const productRouter = require("./routes/productRouter")
@@ -19,16 +21,16 @@ if (process.env.NODE_ENV.trim() == "development") {
     app.use(morgan("dev"));
 };
 
-//! Routing
+//! routers
 app.use("/products", productRouter);
 
-//! When "path" doesn't exist
-app.use((req, res) => {
-    res.status(404).json({
-        success: false,
-        message: `${req.originalUrl} does not exist!`,
-    });
+//! throwing error when route does not exist
+app.use((req, res, next) => {
+    next(new GlobalError(`${req.originalUrl} does not exist!`, 500));
 });
+
+//! Global Error Handler
+app.use(errorHandler);
 
 //! Starting Application
 const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
