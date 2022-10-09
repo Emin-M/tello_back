@@ -41,7 +41,6 @@ const handleJWTEXPIRE = (err) => {
     return new GlobalError("Token expired! Please log in again", 403);
 };
 
-
 module.exports = (err, req, res, next) => {
     statusCode = err.statusCode || 500;
 
