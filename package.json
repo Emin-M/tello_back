@@ -25,7 +25,8 @@
     "helmet": "^6.0.0",
     "mongoose": "^6.5.4",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "run-script-os": "^1.1.6"
