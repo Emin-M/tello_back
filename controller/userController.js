@@ -4,6 +4,20 @@ const {
     asyncCatch
 } = require("../utils/asyncCatch");
 
+
+//! Get User
+exports.getUser = asyncCatch(async (req, res, next) => {
+    const id = req.params.id;
+    const user = await User.findById(id);
+
+    if (!user) return next(new GlobalError("Invalid ID", 404));
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+});
+
 //! Update User Data
 exports.updateUser = asyncCatch(async (req, res, next) => {
     const id = req.params.id
@@ -26,6 +40,7 @@ exports.updateUser = asyncCatch(async (req, res, next) => {
     });
 });
 
+//! Deleting User
 exports.deleteUser = asyncCatch(async (req, res, next) => {
     const id = req.params.id;
     const deletedUser = await User.findByIdAndDelete(id);
