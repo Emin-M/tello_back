@@ -5,6 +5,7 @@ const userController = require("../controller/userController");
 router.get("/:id", userController.getUser);
 router.post("/", authController.signup);
 router.post("/email-token", authController.emailToken);
+router.post("/exchange-token/:token", authController.exchangeToken);
 router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 

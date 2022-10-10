@@ -17,6 +17,10 @@ const userSchema = mongoose.Schema({
     lastname: String,
 
     external_id: String,
+
+    emailToken: String,
+
+    tokenValidateTime: Date,
 });
 
 userSchema.methods.hashEmailToken = async function () {
@@ -28,7 +32,7 @@ userSchema.methods.hashEmailToken = async function () {
         .digest("hex");
 
     this.emailToken = hashedEmailToken;
-    this.tokenTime = Date.now() + 15 * 60 * 1000;
+    this.tokenValidateTime = Date.now() + 15 * 60 * 1000;
 
     return emailToken;
 };

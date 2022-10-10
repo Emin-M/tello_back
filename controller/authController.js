@@ -4,6 +4,18 @@ const {
     asyncCatch
 } = require("../utils/asyncCatch");
 const sendEmail = require("../utils/email");
+const jwt = require("jsonwebtoken");
+
+//! Creating JWT Token For User
+const signJWT = (id) => {
+    const token = jwt.sign({
+        id
+    }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE,
+    });
+
+    return token;
+};
 
 //! Creating User
 exports.signup = asyncCatch(async (req, res, next) => {
@@ -56,5 +68,32 @@ exports.emailToken = asyncCatch(async (req, res, next) => {
     res.status(200).json({
         success: true,
         email: email
+    });
+});
+
+//! exchange token with JWT
+exports.exchangeToken = asyncCatch(async (req, res, next) => {
+    //! checking if token is valid
+    const token = req.params.token;
+    const user = await User.findOne({
+        emailToken: token,
+        tokenValidateTime: {
+            $gt: new Date()
+        }
+    });
+
+    if (!user) return next(new GlobalError("Token wrong or expired"));
+
+    //! deleting the emailToken and tokenValidateTime from the User model
+    user.emailToken = undefined;
+    user.tokenValidateTime = undefined;
+    await user.save();
+
+    //! login the user
+    const jwt = signJWT(user._id);
+
+    res.status(200).json({
+        customer_id: user._id,
+        jwt
     });
 });
