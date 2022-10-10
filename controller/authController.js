@@ -5,6 +5,7 @@ const {
 } = require("../utils/asyncCatch");
 const sendEmail = require("../utils/email");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 //! Creating JWT Token For User
 const signJWT = (id) => {
@@ -73,10 +74,17 @@ exports.emailToken = asyncCatch(async (req, res, next) => {
 
 //! exchange token with JWT
 exports.exchangeToken = asyncCatch(async (req, res, next) => {
-    //! checking if token is valid
+    //! hashing token for compare
     const token = req.params.token;
+
+    const hashedToken = crypto
+        .createHash("md5")
+        .update(token)
+        .digest("hex");
+
+    //! checking if token is valid
     const user = await User.findOne({
-        emailToken: token,
+        emailToken: hashedToken,
         tokenValidateTime: {
             $gt: new Date()
         }
