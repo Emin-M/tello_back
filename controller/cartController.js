@@ -21,3 +21,13 @@ exports.createCart = asyncCatch(async (req, res, next) => {
 
     res.status(200).json(cart);
 });
+
+//! Get Cart
+exports.getCart = asyncCatch(async (req, res, next) => {
+    const id = req.params.id;
+    const cart = await Cart.findById(id);
+
+    if (!cart) return next(new GlobalError("Invalid ID", 404));
+
+    res.status(200).json(cart);
+});
