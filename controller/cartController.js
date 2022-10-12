@@ -31,3 +31,30 @@ exports.getCart = asyncCatch(async (req, res, next) => {
 
     res.status(200).json(cart);
 });
+
+//! Delete Cart
+exports.deleteCart = asyncCatch(async (req, res, next) => {
+    const id = req.params.id;
+    const deletedCart = await Cart.findByIdAndDelete(id);
+
+    if (!deletedCart) return next(new GlobalError("Invalid ID", 404));
+
+    res.status(200).json({
+        success: true,
+        message: "document deleted"
+    });
+});
+
+//! Empty Cart
+exports.emptyCart = asyncCatch(async (req, res, next) => {
+    const id = req.params.id;
+    const cart = await Cart.findByIdAndUpdate(id, {
+        line_items: []
+    }, {
+        new: true
+    });
+
+    if (!cart) return next(new GlobalError("Invalid ID", 404));
+
+    res.status(200).json(cart);
+});

@@ -81,9 +81,9 @@ exports.getCategory = asyncCatch(async (req, res, next) => {
         slug: category.slug,
         name: category.name,
         description: category.description,
-        assets: []
+        assets: [],
+        children: data,
     };
-    newCategory.children = data;
 
     res.status(200).json({
         data: newCategory,
