@@ -14,6 +14,7 @@ const errorHandler = require("./error/errorHandler");
 const productRouter = require("./routes/productRouter");
 const categoryRouter = require("./routes/categoryRouter");
 const userRouter = require("./routes/userRouter");
+const cartRouter = require("./routes/cartRouter");
 
 //! my app
 const app = express();
@@ -40,6 +41,7 @@ if (process.env.NODE_ENV.trim() == "development") {
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/customers", userRouter);
+app.use("/api/v1/carts", cartRouter);
 
 //! throwing error when route does not exist
 app.use((req, res, next) => {
