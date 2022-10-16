@@ -11,8 +11,10 @@ const productSchema = mongoose.Schema({
     description: String,
 
     price: {
-        type: Number,
-        required: [true, "Price is required!"]
+        raw: Number,
+        formatted: String,
+        formatted_with_symbol: String,
+        formatted_with_code: String,
     },
 
     image: {
@@ -25,12 +27,28 @@ const productSchema = mongoose.Schema({
         ref: "asset"
     }],
 
-    releted_products: [{
+    related_products: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "product"
     }],
 
+    categories: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category"
+    }],
+
     variant_groups: []
+});
+
+productSchema.pre("save", function (next) {
+    console.log(this.price);
+    this.price = {
+        raw: this.price.raw,
+        formatted: this.price.raw,
+        formatted_with_symbol: this.price.raw,
+        formatted_with_code: this.price.raw + " AZN",
+    }
+    next();
 });
 
 const Product = mongoose.model("product", productSchema);

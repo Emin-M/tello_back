@@ -8,14 +8,13 @@ const {
 //! Getting All Products
 exports.getAllProducts = asyncCatch(async (req, res) => {
     //! MongoDB Object
-    const products = new GlobalFilter(Product.find(), req.query);
+    const products = new GlobalFilter(Product.find().populate("image").populate("assets").populate("related_products").populate("categories"), req.query);
     products.filter().sort().fields().paginate();
 
     const allProducts = await products.query;
 
-    res.json({
+    res.status(200).json({
         success: true,
-        length: allProducts.length,
         data: allProducts
     });
 });
@@ -23,24 +22,18 @@ exports.getAllProducts = asyncCatch(async (req, res) => {
 //! Getting Product With "_id"
 exports.getOneProduct = asyncCatch(async (req, res, next) => {
     const id = req.params.id;
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).populate("image").populate("assets").populate("related_products").populate("categories");
 
     if (!product) return next(new GlobalError("Invalid ID", 404));
 
-    res.json({
-        success: true,
-        data: product
-    });
+    res.status(200).json(product);
 });
 
 //! Posting Product
 exports.createProduct = asyncCatch(async (req, res) => {
     const product = await Product.create(req.body)
 
-    res.json({
-        success: true,
-        data: product
-    });
+    res.status(200).json(product);
 });
 
 //! Updating Product With "_id"
@@ -52,10 +45,7 @@ exports.updateProduct = asyncCatch(async (req, res, next) => {
 
     if (!product) return next(new GlobalError("Invalid ID", 404));
 
-    res.json({
-        success: true,
-        data: product
-    });
+    res.status(200).json(product);
 });
 
 //! Deleting Product
