@@ -8,10 +8,7 @@ const assetSchema = mongoose.Schema({
 
     description: String,
 
-    url: {
-        type: String,
-        required: [true, "Url is required"]
-    },
+    url: String,
 
     url_id: String,
 });
