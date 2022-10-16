@@ -28,10 +28,7 @@ exports.signup = asyncCatch(async (req, res, next) => {
         external_id: req.body.external_id,
     });
 
-    res.status(200).json({
-        data: user,
-        meta: {}
-    });
+    res.status(200).json(user);
 });
 
 //! Email Token
@@ -75,7 +72,7 @@ exports.emailToken = asyncCatch(async (req, res, next) => {
 //! exchange token with JWT
 exports.exchangeToken = asyncCatch(async (req, res, next) => {
     //! hashing token for compare
-    const token = req.params.token;
+    const token = req.body.token;
 
     const hashedToken = crypto
         .createHash("md5")

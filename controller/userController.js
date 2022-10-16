@@ -12,10 +12,7 @@ exports.getUser = asyncCatch(async (req, res, next) => {
 
     if (!user) return next(new GlobalError("Invalid ID", 404));
 
-    res.status(200).json({
-        success: true,
-        user
-    })
+    res.status(200).json(user);
 });
 
 //! Update User Data
@@ -34,10 +31,7 @@ exports.updateUser = asyncCatch(async (req, res, next) => {
 
     await user.save();
 
-    res.json({
-        data: user,
-        meta: {}
-    });
+    res.json(user);
 });
 
 //! Deleting User
