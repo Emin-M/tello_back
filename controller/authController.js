@@ -3,7 +3,7 @@ const GlobalError = require("../error/GlobalError");
 const {
     asyncCatch
 } = require("../utils/asyncCatch");
-const sendEmail = require("../utils/email");
+const Email = require("../utils/email");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
@@ -57,11 +57,8 @@ exports.emailToken = asyncCatch(async (req, res, next) => {
     const urlString = `${base_url}/${emailToken}`;
 
     //! sending email
-    await sendEmail({
-        email: email,
-        subject: "Log in to your account",
-        message: `Please follow the link: ${urlString}`,
-    });
+    const emailHandler = new Email(user, urlString);
+    await emailHandler.sendEmailToken();
 
     res.status(200).json({
         success: true,

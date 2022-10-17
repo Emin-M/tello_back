@@ -41,13 +41,20 @@ const productSchema = mongoose.Schema({
 });
 
 productSchema.pre("save", function (next) {
-    console.log(this.price);
     this.price = {
         raw: this.price.raw,
         formatted: this.price.raw,
-        formatted_with_symbol: this.price.raw,
+        formatted_with_symbol: "₼ " + this.price.raw,
         formatted_with_code: this.price.raw + " AZN",
     }
+    next();
+});
+
+productSchema.pre(/find/, function (next) {
+    this.populate("image").populate("assets").populate({
+        path: "related_products",
+        select: "-related_products"
+    }).populate("categories");
     next();
 });
 

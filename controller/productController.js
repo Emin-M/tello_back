@@ -8,7 +8,7 @@ const {
 //! Getting All Products
 exports.getAllProducts = asyncCatch(async (req, res) => {
     //! MongoDB Object
-    const products = new GlobalFilter(Product.find().populate("image").populate("assets").populate("related_products").populate("categories"), req.query);
+    const products = new GlobalFilter(Product.find(), req.query);
     products.filter().sort().fields().paginate();
 
     const allProducts = await products.query;
@@ -22,7 +22,7 @@ exports.getAllProducts = asyncCatch(async (req, res) => {
 //! Getting Product With "_id"
 exports.getOneProduct = asyncCatch(async (req, res, next) => {
     const id = req.params.id;
-    const product = await Product.findById(id).populate("image").populate("assets").populate("related_products").populate("categories");
+    const product = await Product.findById(id);
 
     if (!product) return next(new GlobalError("Invalid ID", 404));
 
