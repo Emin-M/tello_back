@@ -11,7 +11,10 @@ const productSchema = mongoose.Schema({
     description: String,
 
     price: {
-        raw: Number,
+        raw: {
+            type: Number,
+            required: [true, "product price is required!"]
+        },
         formatted: String,
         formatted_with_symbol: String,
         formatted_with_code: String,
@@ -37,16 +40,55 @@ const productSchema = mongoose.Schema({
         ref: "category"
     }],
 
-    variant_groups: []
+    variant_groups: [{
+        name: {
+            type: String,
+            required: [true, "variant_group name is required!"]
+        },
+
+        id: String,
+
+        options: [{
+            name: {
+                type: String,
+                required: [true, "variant_group_option name is required!"]
+            },
+
+            id: String,
+
+            price: {
+                raw: Number,
+                formatted: String,
+                formatted_with_symbol: String,
+                formatted_with_code: String,
+            }
+        }]
+    }]
 });
 
 productSchema.pre("save", function (next) {
+    //! converting product price to the formatted values
     this.price = {
         raw: this.price.raw,
         formatted: this.price.raw,
         formatted_with_symbol: "₼ " + this.price.raw,
         formatted_with_code: this.price.raw + " AZN",
-    }
+    };
+
+    //! converting product options price to the formatted values
+    // if (this.variant_groups.length) {
+    //     for (let i = 0; i < this.variant_groups.length; i++) {
+    //         for (let j = 0; j < this.variant_groups.options.length; j++) {
+    //             this.variant_groups[i].options[j] = {
+    //                 raw: this.variant_groups[i].options[j],
+    //                 formatted: this.variant_groups[i].options[j],
+    //                 formatted_with_symbol: "₼ " + this.variant_groups[i].options[j],
+    //                 formatted_with_code: this.variant_groups[i].options[j] + " AZN",
+    //             };
+    //         };
+    //     };
+    // }
+
     next();
 });
 
