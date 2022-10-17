@@ -17,14 +17,13 @@ exports.createAsset = asyncCatch(async (req, res, next) => {
     let image;
     if (req.file) {
         image = await cloudinary.uploader.upload(req.file.path);
+        await asset.updateOne({
+            url: image.secure_url,
+            url_id: image.public_id,
+        });
+        asset.url = image.secure_url;
+        asset.url_id = image.public_id;
     };
-
-    await asset.updateOne({
-        url: image.secure_url,
-        url_id: image.public_id,
-    });
-    asset.url = image.secure_url;
-    asset.url_id = image.public_id;
 
     res.status(200).json(asset);
 });
