@@ -1,10 +1,11 @@
 const router = require("express").Router();
-const assetController = require("../controller/assetController");
-const protectedAuth = require("../middleware/protectedAuth");
-const specialAccess = require("../middleware/specialAccess");
+const protectedAuth = require("../middlewares/protectedAuth");
+const specialAccess = require("../middlewares/specialAccess");
 const multer = require("../utils/multer");
+const assetController = require("../controller/assetController");
 
-router.post("/", protectedAuth, specialAccess(), multer.single("url"), assetController.createAsset);
-router.delete("/:id", protectedAuth, specialAccess(), assetController.deleteAsset);
+router.use(protectedAuth, specialAccess);
+router.post("/", multer.single("url"), assetController.createAsset);
+router.delete("/:id", assetController.deleteAsset);
 
 module.exports = router;

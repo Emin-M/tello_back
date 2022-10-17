@@ -7,18 +7,16 @@ const {
 
 //! Get User
 exports.getUser = asyncCatch(async (req, res, next) => {
-    const id = req.params.id;
-    const user = await User.findById(id);
+    const user = await User.findById(req.user._id);
 
-    if (!user) return next(new GlobalError("Invalid ID", 404));
+    if (!user) return next(new GlobalError("User not found!", 404));
 
     res.status(200).json(user);
 });
 
 //! Update User Data
 exports.updateUser = asyncCatch(async (req, res, next) => {
-    const id = req.params.id
-    const user = await User.findByIdAndUpdate(id, {
+    const user = await User.findByIdAndUpdate(req.user._id, {
         email: req.body.email,
         phone: req.body.phone,
         firstname: req.body.firstname,
@@ -27,7 +25,7 @@ exports.updateUser = asyncCatch(async (req, res, next) => {
         new: true
     });
 
-    if (!user) return next(new GlobalError("Invalid ID", 404));
+    if (!user) return next(new GlobalError("User not found!", 404));
 
     await user.save();
 
@@ -36,10 +34,9 @@ exports.updateUser = asyncCatch(async (req, res, next) => {
 
 //! Deleting User
 exports.deleteUser = asyncCatch(async (req, res, next) => {
-    const id = req.params.id;
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(req.user._id);
 
-    if (!deletedUser) return next(new GlobalError("Invalid ID", 404));
+    if (!deletedUser) return next(new GlobalError("User not found!", 404));
 
     res.status(200).json({
         success: true,
