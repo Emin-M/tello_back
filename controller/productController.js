@@ -14,7 +14,6 @@ exports.getAllProducts = asyncCatch(async (req, res) => {
     const allProducts = await products.query;
 
     res.status(200).json({
-        success: true,
         data: allProducts
     });
 });

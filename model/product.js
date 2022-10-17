@@ -95,7 +95,7 @@ productSchema.pre("save", function (next) {
 productSchema.pre(/find/, function (next) {
     this.populate("image").populate("assets").populate({
         path: "related_products",
-        select: "-related_products"
+        select: "-related_products -categories -assets -variant_groups"
     }).populate("categories");
     next();
 });

@@ -8,7 +8,7 @@ const variantController = require("../controller/variantController");
 router.get("/", variantController.getAllvariants);
 router.get("/:id", variantController.getVariant);
 
-// router.post("/", variantController.createProduct);
+router.post("/", variantController.createVariant);
 // router.patch("/:id", variantController.updateProduct);
 // router.delete("/:id", variantController.deleteProduct);
 

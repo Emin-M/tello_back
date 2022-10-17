@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 
 const variantSchema = mongoose.Schema({
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, "ProductId is required!"]
+    },
+
+    inventory: {
+        type: Number,
+        default: 10
+    },
+
     sku: String,
 
     description: String,
@@ -30,6 +40,11 @@ variantSchema.pre("save", function (next) {
         formatted_with_code: this.price.raw + " AZN",
     };
 
+    next();
+});
+
+variantSchema.pre(/find/, function (next) {
+    this.populate("assets");
     next();
 });
 
