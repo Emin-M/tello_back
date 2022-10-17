@@ -2,6 +2,10 @@ const router = require("express").Router();
 const protectedAuth = require("../middlewares/protectedAuth");
 const specialAccess = require("../middlewares/specialAccess");
 const productController = require("../controller/productController");
+const variantRouter = require("./variantRouter");
+
+//! merged routes
+router.use("/:id/variants", variantRouter);
 
 router.get("/", productController.getAllProducts);
 router.get("/:id", productController.getOneProduct);
