@@ -12,7 +12,6 @@ const errorHandler = require("./error/errorHandler");
 
 //! Routers 
 const productRouter = require("./routes/productRouter");
-const variantRouter = require("./routes/variantRouter");
 const categoryRouter = require("./routes/categoryRouter");
 const userRouter = require("./routes/userRouter");
 const cartRouter = require("./routes/cartRouter");
@@ -41,7 +40,6 @@ if (process.env.NODE_ENV.trim() == "development") {
 
 //! routers
 app.use("/api/v1/products", productRouter);
-// app.use("/api/v1/variants", variantRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/customers", userRouter);
 app.use("/api/v1/carts", cartRouter);

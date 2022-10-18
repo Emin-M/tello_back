@@ -6,10 +6,10 @@ const {
 } = require("../utils/asyncCatch");
 
 //! Getting All Products
-exports.getAllProducts = asyncCatch(async (req, res) => {
+exports.getAllProducts = asyncCatch(async (req, res, next) => {
     //! MongoDB Object
     const products = new GlobalFilter(Product.find(), req.query);
-    products.filter().sort().fields().paginate();
+    products.filter().sort().paginate();
 
     const allProducts = await products.query;
 
