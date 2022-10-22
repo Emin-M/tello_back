@@ -14,6 +14,16 @@ exports.createCart = asyncCatch(async (req, res, next) => {
     res.status(200).json(cart);
 });
 
+//! Get Cart
+exports.getCart = asyncCatch(async (req, res, next) => {
+    const id = req.params.id;
+    const cart = await Cart.findById(id);
+
+    if (!cart) return next(new GlobalError("Invalid ID", 404));
+
+    res.status(200).json(cart);
+});
+
 //! Add Item To The Cart
 exports.addItemToCart = asyncCatch(async (req, res, next) => {
     const id = req.params.id;
@@ -76,6 +86,40 @@ exports.addItemToCart = asyncCatch(async (req, res, next) => {
     });
 });
 
+//! Update Item In The Cart
+exports.updateItemInCart = asyncCatch(async (req, res, next) => {
+    const id = req.params.cartId;
+    const product_id = req.params.id;
+    const quantity = req.body.quantity;
+
+    //! check if cart exist
+    const cart = await Cart.findById(id);
+    if (!cart) return next(new GlobalError("Invalid Cart ID", 404));
+
+    //! check if product exist
+    const product_l_p = cart.line_items_product;
+    const product_l_v = cart.line_items_variant;
+    const products_p = product_l_p.find((el) => el.products._id.toString() === product_id);
+    if (products_p) products_p.quantity = quantity;
+
+    const products_v = product_l_v.find((el) => el.products._id.toString() === product_id);
+    if (products_v) products_v.quantity = quantity;
+
+    if (!products_p && !products_v) return next(new GlobalError("Product doesn't exist in this cart!", 404));
+
+    //! updating product in cart    
+    const updatedCart = await Cart.findByIdAndUpdate(id, {
+        line_items_product: product_l_p,
+        line_items_variant: product_l_v
+    }, {
+        new: true
+    });
+
+    res.status(200).json({
+        cart: updatedCart
+    });
+});
+
 //! Delete Item From The Cart
 exports.deleteItemFromCart = asyncCatch(async (req, res, next) => {
     const id = req.params.cartId;
@@ -98,7 +142,6 @@ exports.deleteItemFromCart = asyncCatch(async (req, res, next) => {
     if (!products_p && !products_v) return next(new GlobalError("Product doesn't exist in this cart!", 404));
 
     //! updating product
-    await cart.save();
     const updatedCart = await Cart.findByIdAndUpdate(id, {
         line_items_variant: products_v,
         line_items_product: products_p
@@ -111,15 +154,6 @@ exports.deleteItemFromCart = asyncCatch(async (req, res, next) => {
     });
 });
 
-//! Get Cart
-exports.getCart = asyncCatch(async (req, res, next) => {
-    const id = req.params.id;
-    const cart = await Cart.findById(id);
-
-    if (!cart) return next(new GlobalError("Invalid ID", 404));
-
-    res.status(200).json(cart);
-});
 
 //! Delete Cart
 exports.deleteCart = asyncCatch(async (req, res, next) => {
