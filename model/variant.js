@@ -25,6 +25,11 @@ const variantSchema = mongoose.Schema({
         formatted_with_code: String,
     },
 
+    image: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "asset"
+    },
+
     assets: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "asset"
