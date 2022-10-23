@@ -34,6 +34,14 @@ const variantSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "asset"
     }],
+
+    ratingsAverage: {
+        type: Number,
+    },
+
+    ratingsQuantity: {
+        type: Number,
+    },
 });
 
 variantSchema.pre("save", function (next) {

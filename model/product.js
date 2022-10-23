@@ -43,6 +43,14 @@ const productSchema = mongoose.Schema({
         ref: "category"
     }],
 
+    ratingsAverage: {
+        type: Number,
+    },
+
+    ratingsQuantity: {
+        type: Number,
+    },
+
     variant_groups: [{
         name: {
             type: String,
