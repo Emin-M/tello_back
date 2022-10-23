@@ -8,6 +8,6 @@ router.get("/", reviewController.getReviews);
 
 router.use(protectedAuth);
 router.post("/", reviewController.createReview);
-router.delete("/:id", reviewController.deleteReview);
+router.delete("/:reviewId", reviewController.deleteReview);
 
 module.exports = router;

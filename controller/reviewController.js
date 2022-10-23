@@ -17,7 +17,6 @@ exports.getReviews = asyncCatch(async (req, res, next) => {
         }]
     });
 
-
     res.status(200).json({
         success: true,
         reviews
@@ -30,7 +29,8 @@ exports.createReview = asyncCatch(async (req, res, next) => {
     const {
         product_id,
         variant_id
-    } = req.body;
+    } = req.body.data;
+    console.log(product_id, variant_id);
     if (!product_id && !variant_id) return next(new GlobalError("Please provide ID for product!"));
 
     //! checking if product exist with given id
@@ -40,11 +40,11 @@ exports.createReview = asyncCatch(async (req, res, next) => {
     if (!product && !variant) return next(new GlobalError("Product doesn't exist with this ID", 404));
 
     const review = await Review.create({
-        content: req.body.content,
-        rating: req.body.rating,
+        content: req.body.data.content,
+        rating: req.body.data.rating,
         user: req.user._id,
-        product: req.body.product_id,
-        variant: req.body.variant_id
+        product: product_id,
+        variant: variant_id
     });
 
     res.status(200).json({
@@ -55,8 +55,8 @@ exports.createReview = asyncCatch(async (req, res, next) => {
 
 //! Delete Review
 exports.deleteReview = asyncCatch(async (req, res, next) => {
-    const id = req.params.id;
-    const deletedReview = await Review.findByIdRemove({
+    const id = req.params.reviewId;
+    const deletedReview = await Review.findByIdAndDelete({
         _id: id,
         user: req.user._id
     });
@@ -65,6 +65,6 @@ exports.deleteReview = asyncCatch(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        message: "Document deleted!"
+        message: "Document deleted"
     });
 });

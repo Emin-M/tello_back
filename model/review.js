@@ -28,6 +28,8 @@ const reviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "variant"
     }
+}, {
+    timestamps: true,
 });
 
 //! populating
