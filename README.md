@@ -1,2 +1,3 @@
 # tello
-MERN stack ecommerce app
+
+MERN stack ecommerce app backend
