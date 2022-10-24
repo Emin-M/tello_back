@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-// const {
-//     MongooseFindByReference
-// } = require('mongoose-find-by-reference');
+const {
+    MongooseFindByReference
+} = require('mongoose-find-by-reference');
 
 const productSchema = mongoose.Schema({
     name: {
@@ -77,7 +77,7 @@ const productSchema = mongoose.Schema({
     }]
 });
 
-// productSchema.plugin(MongooseFindByReference);
+productSchema.plugin(MongooseFindByReference);
 
 productSchema.pre("save", function (next) {
     //! converting product price to the formatted values
