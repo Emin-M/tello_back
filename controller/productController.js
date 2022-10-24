@@ -13,8 +13,14 @@ exports.getAllProducts = asyncCatch(async (req, res, next) => {
 
     const allProducts = await products.query;
 
+    const totalResultProducts = new GlobalFilter(Product.find(), req.query);
+    totalResultProducts.filter();
+
+    const totalResult = await totalResultProducts.query;
+
     res.status(200).json({
-        data: allProducts
+        data: allProducts,
+        totalResult: totalResult.length
     });
 });
 
