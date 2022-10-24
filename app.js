@@ -34,9 +34,9 @@ app.use(cors());
 app.use(express.json());
 
 //! Environment
-if (process.env.NODE_ENV.trim() == "development") {
-    app.use(morgan("dev"));
-};
+// if (process.env.NODE_ENV.trim() == "development") {
+//     app.use(morgan("dev"));
+// };
 
 //! routers
 app.use("/api/v1/products", productRouter);
@@ -54,11 +54,11 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 //! Starting Application
-const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
-mongoose.connect(DB, (err) => {
+// const DB = process.env.DB_STRING.replace("<password>", process.env.DB_PASSWORD);
+mongoose.connect("mongodb+srv://Emin:YREC981ujkylcciC@cluster0.7mqgniq.mongodb.net/tello?retryWrites=true&w=majority", (err) => {
     if (err) return console.log(err);
     console.log("MongoDB connected");
 
-    const PORT = process.env.PORT;
-    app.listen(5000, () => console.log("Server running on port:", PORT));
+    // const PORT = process.env.PORT;
+    app.listen(5000, () => console.log("Server running on port:", 5000));
 });
