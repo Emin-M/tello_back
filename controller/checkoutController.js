@@ -4,7 +4,7 @@ const {
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 
-//! Get User
+//! Checkout
 exports.checkout = asyncCatch(async (req, res, next) => {
     //! items for cart
     const line_items = req.body.cartItems.map((item) => {
