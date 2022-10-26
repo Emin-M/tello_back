@@ -18,6 +18,7 @@ const userRouter = require("./routes/userRouter");
 const cartRouter = require("./routes/cartRouter");
 const assetRouter = require("./routes/assetRouter");
 const checkoutRouter = require("./routes/checkoutRouter");
+const orderRouter = require("./routes/orderRouter");
 
 //! my app
 const app = express();
@@ -51,6 +52,7 @@ app.use("/api/v1/customers", userRouter);
 app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/assets", assetRouter);
 app.use("/api/v1/checkout", checkoutRouter);
+app.use("/api/v1/orders", orderRouter);
 
 //! throwing error when route does not exist
 app.use((req, res, next) => {
