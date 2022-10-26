@@ -9,6 +9,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const GlobalError = require("./error/GlobalError");
 const errorHandler = require("./error/errorHandler");
+const bodyParser = require('body-parser');
 
 //! Routers 
 const productRouter = require("./routes/productRouter");
@@ -20,6 +21,10 @@ const checkoutRouter = require("./routes/checkoutRouter");
 
 //! my app
 const app = express();
+
+app.use("/api/v1/checkout/webhook", bodyParser.raw({
+    type: "*/*"
+}));
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
