@@ -117,7 +117,7 @@ cartSchema.virtual("line_items").get(function () {
 cartSchema.pre(/find/, function (next) {
     this.populate({
         path: "line_items_product.products",
-        select: "-assets -categories -variant_groups -related_products"
+        select: "-categories -variant_groups -related_products"
     }).populate({
         path: "line_items_variant.products",
         select: "-categories -variant_groups -related_products"

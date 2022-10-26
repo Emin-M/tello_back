@@ -168,10 +168,12 @@ const createOrder = async (customer, data) => {
     });
 
     //! creating products
+    console.log(cart_items);
     const products = cart_items.map((item) => {
         return {
             name: item.products.name,
             description: item.products.description,
+            image: item.products.assets[0].url,
             price: item.products.price,
             quantity: item.quantity,
         };
