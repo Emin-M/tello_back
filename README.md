@@ -6,5 +6,5 @@
 <h2>Deployed url</h2>
 <a href="https://rocky-cove-19186.herokuapp.com/">heroku url</a>
 
-<h2>Fronent</h2>
+<h2>Frontend</h2>
 <a href="https://github.com/Emin-M/tello_front.git">frontend</a>
