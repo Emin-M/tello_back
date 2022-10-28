@@ -7,7 +7,7 @@ const {
 exports.getOrders = asyncCatch(async (req, res, next) => {
     const orders = await Order.find({
         userId: req.user._id
-    });
+    }).sort("-createdAt");
 
     res.status(200).json({
         orders
