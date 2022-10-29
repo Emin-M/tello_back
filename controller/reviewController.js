@@ -47,14 +47,25 @@ exports.createReview = asyncCatch(async (req, res, next) => {
         variant: variant_id
     });
 
+    //! reviews 
+    let reviews = [];
+    if (product_id) reviews = await Review.find({
+        product: product_id
+    });
+    if (variant_id) reviews = await Review.find({
+        variant: variant_id
+    });
+
     res.status(200).json({
         success: true,
-        review
+        review,
+        reviews
     });
 });
 
 //! Delete Review
 exports.deleteReview = asyncCatch(async (req, res, next) => {
+    const product_id = req.params.id;
     const id = req.params.reviewId;
     const deletedReview = await Review.findByIdAndDelete({
         _id: id,
@@ -63,8 +74,18 @@ exports.deleteReview = asyncCatch(async (req, res, next) => {
 
     if (!deletedReview) next(new GlobalError("Review doesn't exist! or doesn't belong to this user", 404));
 
+    //! reviews 
+    const reviews = await Review.find({
+        $or: [{
+            "product": product_id
+        }, {
+            "variant": product_id
+        }]
+    });
+
     res.status(200).json({
         success: true,
-        message: "Document deleted"
+        message: "Document deleted",
+        reviews
     });
 });
