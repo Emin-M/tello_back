@@ -91,8 +91,8 @@ exports.checkout = asyncCatch(async (req, res, next) => {
         payment_method_types: ["card"],
         mode: "payment",
         customer: customer.id,
-        success_url: `http://localhost:3000/userprofile/orders`,
-        cancel_url: `http://localhost:3000/userprofile/orders`,
+        success_url: `https://ecommerce-tello.netlify.app/userprofile/orders`,
+        cancel_url: `https://ecommerce-tello.netlify.app/userprofile/orders`,
     });
 
     res.status(201).json({
