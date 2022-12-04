@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "node index.js",
     "start:local": "run-script-os",
-    "start:local:windows": "SET NODE_ENV=development && nodemon app.js",
-    "start:local:macos": "NODE_ENV=development nodemon app.js",
-    "start:local:default": "SET NODE_ENV=development && nodemon app.js",
+    "start:local:windows": "SET NODE_ENV=development && nodemon index.js",
+    "start:local:macos": "NODE_ENV=development nodemon index.js",
+    "start:local:default": "SET NODE_ENV=development && nodemon index.js",
     "start:local:prod": "run-script-os",
-    "start:local:prod:windows": "SET NODE_ENV=production && nodemon app.js",
-    "start:local:prod:macos": "NODE_ENV=production nodemon app.js",
-    "start:local:prod:default": "SET NODE_ENV=production && nodemon app.js"
+    "start:local:prod:windows": "SET NODE_ENV=production && nodemon index.js",
+    "start:local:prod:macos": "NODE_ENV=production nodemon index.js",
+    "start:local:prod:default": "SET NODE_ENV=production && nodemon index.js"
   },
   "keywords": [],
   "author": "",
